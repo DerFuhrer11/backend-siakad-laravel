@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,22 @@ Route::middleware(['auth'])->group(function () {
         return view('pages.app.dashboard-siakad', ['type_menu' => '']);
     })->name('home');
     Route::resource('user', UserController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('subject', SubjectController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('schedule', ScheduleController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('generate-qrcode/{schedule}', [ScheduleController::class, 'generateQrCode'])->name('generate-qrcode');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('generate-qrcode-update/{schedule}', [ScheduleController::class, 'generateQrCodeUpdate'])->name('generate-qrcode-update');
 });
 
 // Route::get('/login', function () {
